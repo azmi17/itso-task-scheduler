@@ -1,0 +1,12 @@
+package databasefactory
+
+var Apex, Rekpon Database
+
+type Database interface {
+	Connect() error
+	Ping() error
+	GetConnection() interface{}
+	GetDriverName() string
+	SetEnvironmentVariablePrefix(string)
+	Close()
+}
