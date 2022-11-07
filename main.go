@@ -3,6 +3,7 @@ package main
 import (
 	"itso-task-scheduler/delivery"
 	"itso-task-scheduler/delivery/handler"
+	"itso-task-scheduler/delivery/router"
 	"itso-task-scheduler/helper"
 	"itso-task-scheduler/repository/databasefactory"
 	"math/rand"
@@ -18,7 +19,7 @@ import (
 
 func main() {
 	go delivery.PrintoutObserver()
-
+	go router.Start()
 	/*
 		below is only run by sequentially which is only the first handler is executed,
 		so, how all these function can be run by parallel (?)
@@ -26,8 +27,8 @@ func main() {
 		Solutions: Put the previously called function into the go routine.
 	*/
 	go handler.CleanUpTriggerReversalOnTabtrans()
-	go handler.FeeUpdateTelkomTransOnRekpon()
-	handler.FeeUpdateHalloTransOnRekpon()
+	handler.FeeUpdateTelkomHalloTransactionOnRekpon()
+
 }
 
 func init() {

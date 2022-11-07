@@ -16,11 +16,11 @@ func CleanUpTriggerReversalOnTabtrans() {
 
 	task := gocron.NewScheduler(localTime)
 
-	_, er := task.Every("2m").Do(usecase.CleanUpTriggerReversalOnTabtrans)
+	_, er := task.Every(1).Day().At("12:00;23:00").Do(usecase.CleanUpTriggerReversalOnTabtrans)
 	if er != nil {
 		_ = glg.Log(errors.New(er.Error()))
 	}
-	_ = glg.Log("Clean up trigger-reversal scheduler running at: every 2 minutes")
+	_ = glg.Log("Clean up trigger-reversal scheduler running at: 12:00,23:00")
 
 	task.StartBlocking()
 

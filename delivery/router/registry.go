@@ -27,5 +27,6 @@ func RegisterHandler(router *gin.Engine) {
 
 	// API Endpoint:
 	apiv1.GET("/version", handler.AppInfo)
+	apiv1.GET("/fee-update", handler.FeeUpdateTelkomHalloByAPI)
 
 }

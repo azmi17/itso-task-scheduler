@@ -20,7 +20,7 @@ func FeeUpdateHalloTransOnRekpon() {
 	if er != nil {
 		_ = glg.Log(errors.New(er.Error()))
 	}
-	_ = glg.Log("Update fee hallo transaction scheduler running at: every 2 minutes")
+	_ = glg.Log("Update fee hallo transaction scheduler running at: every 8 hours")
 
 	task.StartBlocking()
 

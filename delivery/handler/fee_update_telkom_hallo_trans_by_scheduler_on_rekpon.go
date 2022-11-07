@@ -9,19 +9,19 @@ import (
 	"github.com/kpango/glg"
 )
 
-func FeeUpdateTelkomTransOnRekpon() {
+func FeeUpdateTelkomHalloTransactionOnRekpon() {
 	usecase := usecase.NewRekponSchedulerUsecase()
 
 	localTime := helper.IDNLocalTime()
 
-	task := gocron.NewScheduler(localTime)
+	s := gocron.NewScheduler(localTime)
 
-	_, er := task.Every("2m").Do(usecase.RekponFeeUpdateOnTelkomTrans)
+	_, er := s.Every(50).Second().Do(usecase.RekponUpdateFeeOnTelkomHalloTrans)
 	if er != nil {
 		_ = glg.Log(errors.New(er.Error()))
 	}
-	_ = glg.Log("Update fee telkom transaction scheduler running at: every 8 hours")
+	_ = glg.Log("Update fee telkom & hallo transaction scheduler running at: every 50 sec..")
 
-	task.StartBlocking()
+	s.StartBlocking()
 
 }

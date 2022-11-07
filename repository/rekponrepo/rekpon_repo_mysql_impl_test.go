@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"testing"
 	"time"
+
+	"github.com/kpango/glg"
 )
 
 func GetConnectionRekpon() *sql.DB {
@@ -57,14 +59,32 @@ func TestUpdateFeeTelkomTrans(t *testing.T) {
 	fmt.Println("Total Update Transaction:", total)
 }
 
-func TestUpdateFeeHalloTrans(t *testing.T) {
+func TestUpdateFeeTelkomHalloTrans(t *testing.T) {
+	var er error
+
 	db := GetConnectionRekpon()
 	rekponRepo := newRekponRepoMysqlImpl(db)
 
-	total, err := rekponRepo.UpdateFeeHalloTrans("20221102000000", "20221102595958")
-	if err != nil {
-		t.Error(err.Error())
+	trans, er := rekponRepo.FindEmptyFeeTelkomHalloTrans("20221102000000", "20221102595958")
+	if er != nil {
+		t.Error(er.Error())
 	}
 
-	fmt.Println("Total Update Transaction:", total)
+	for _, val := range trans {
+		feeData, er := rekponRepo.GetFeeOnProductConfig(val.Bank_Code, val.Biller_Code, val.Product_Code)
+		if er != nil {
+			_ = glg.Log("no records found")
+		}
+
+		feeData, er = rekponRepo.GetFeeOnProductConfig("default", val.Biller_Code, val.Product_Code)
+		if er != nil {
+			_ = glg.Log("no records found")
+		}
+
+		er = rekponRepo.UpdateFeeTelkomHalloTrans(int64(feeData.Profit_Included), int64(feeData.Profit_Share_Biller), int64(feeData.Profit_Share_aggr), int64(feeData.Profitt_Share_Bank), val.Stan)
+		if er != nil {
+			t.Error(er.Error())
+		}
+		fmt.Println("update fee successfully on stan:", val.Stan)
+	}
 }
