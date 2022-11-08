@@ -27,7 +27,7 @@ func main() {
 		Solutions: Put the previously called function into the go routine.
 	*/
 	go handler.CleanUpTriggerReversalOnTabtrans()
-	handler.FeeUpdateTelkomHalloTransactionOnRekpon()
+	handler.FeeUpdateTelkomHalloTransOnRekpon()
 
 }
 

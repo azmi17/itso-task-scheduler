@@ -85,14 +85,14 @@ func (r *rekpontSchedulerUsecase) RekponFeeUpdateOnHalloTrans() (er error) {
 func (r *rekpontSchedulerUsecase) RekponUpdateFeeOnTelkomHalloTrans() (er error) {
 	repo, _ := rekponrepo.NewRekponRepo()
 
-	trxList, er := repo.FindEmptyFeeTelkomHalloTrans("20221102000000", "20221102595958")
+	trxList, er := repo.FindEmptyFeeTelkomHalloTrans(helper.BeginCurrentDate, helper.EndCurrentDate)
 	if er != nil {
 		_ = glg.Log("Scheduler INFO:", "There is no fee transaction data to update..")
 	}
 
 	data := trxList
 	if len(data) > 0 {
-		_ = glg.Log("Scheduler INFO:", "Update fee telkom & hallo transaction is processing..")
+		_ = glg.Log("Update fee telkom & hallo transaction is processing..")
 		for _, trans := range data {
 			feeData, er := repo.GetFeeOnProductConfig(trans.Bank_Code, trans.Biller_Code, trans.Product_Code)
 			if er != nil {
@@ -110,16 +110,18 @@ func (r *rekpontSchedulerUsecase) RekponUpdateFeeOnTelkomHalloTrans() (er error)
 				int64(feeData.Profit_Included),
 				int64(feeData.Profit_Share_Biller),
 				int64(feeData.Profit_Share_aggr),
-				int64(feeData.Profitt_Share_Bank), trans.Stan)
+				int64(feeData.Profitt_Share_Bank),
+				trans.Stan)
 			if er != nil {
 				return er
 			}
-			_ = glg.Log("update fee successfully on stan:", trans.Stan)
+			_ = glg.Log("Update fee successfully on stan:", trans.Stan, "=> product code: (", trans.Product_Code, ")")
 
 		}
 		hours, minutes, _ := time.Now().Clock()
 		currUTCTimeInString := fmt.Sprintf("%d:%02d", hours, minutes)
-		_ = glg.Log("Scheduler INFO:", "Update fee hallo transaction is done at:", currUTCTimeInString)
+
+		_ = glg.Log("Scheduler INFO:", "Update fee telkom & hallo transaction is done at:", currUTCTimeInString)
 	}
 
 	return

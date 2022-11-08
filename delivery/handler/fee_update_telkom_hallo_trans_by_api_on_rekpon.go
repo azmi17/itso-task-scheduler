@@ -21,9 +21,13 @@ func FeeUpdateTelkomHalloByAPI(ctx *gin.Context) {
 
 	if data != nil {
 		entities.PrintLog(data.Error())
-		resp.ResponseCode = "0000"
-		resp.ResponseMessage = "Tidak ada data fee transaksi (telkom, hallo) untuk di update"
+		resp.ResponseCode = "1111"
+		resp.ResponseMessage = data.Error()
 
+		if resp.ResponseMessage == "no records found" {
+			resp.ResponseCode = "0000"
+			resp.ResponseMessage = "Tidak ada data fee transaksi (telkom, hallo) untuk di update"
+		}
 	} else {
 		resp.ResponseCode = "0000"
 		resp.ResponseMessage = "Update data fee transaksi (telkom, hallo) sukses"
