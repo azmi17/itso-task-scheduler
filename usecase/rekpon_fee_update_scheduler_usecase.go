@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"fmt"
+	"itso-task-scheduler/entities"
 	"itso-task-scheduler/entities/err"
 	"itso-task-scheduler/helper"
 	"itso-task-scheduler/repository/rekponrepo"
@@ -99,9 +100,11 @@ func (r *rekpontSchedulerUsecase) RekponUpdateFeeOnTelkomHalloTrans() (er error)
 				if er == err.NoRecord {
 					feeData, er = repo.GetFeeOnProductConfig("default", trans.Biller_Code, trans.Product_Code)
 					if er != nil {
-						return er
+						entities.PrintError(er.Error())
+						_ = glg.Log("error while get product config by default:", er.Error())
 					}
 				} else {
+					entities.PrintError(er.Error())
 					_ = glg.Log(er.Error())
 					continue
 				}
@@ -113,7 +116,8 @@ func (r *rekpontSchedulerUsecase) RekponUpdateFeeOnTelkomHalloTrans() (er error)
 				int64(feeData.Profitt_Share_Bank),
 				trans.Stan)
 			if er != nil {
-				return er
+				entities.PrintError(er.Error())
+				_ = glg.Log("error while execute fee transaction => ", er.Error())
 			}
 			_ = glg.Log("Update fee successfully on stan:", trans.Stan, "=> product code: (", trans.Product_Code, ")")
 

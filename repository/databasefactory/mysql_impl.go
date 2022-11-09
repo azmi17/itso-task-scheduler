@@ -32,19 +32,19 @@ func (m *mysqlImpl) Connect() error {
 	*/
 
 	usr := os.Getenv(m.prefix + "mysql.username")
-	usr, _ = aes.Decrypt([]byte("IT50SCHEDUL3RTSK"), []byte("IT50SCHEDUL3RTSK"), usr)
+	usr, _ = aes.Decrypt([]byte("ECHRESENDTXT00LS"), []byte("ECHRESENDTXT00LS"), usr)
 
 	pwd := os.Getenv(m.prefix + "mysql.password")
-	pwd, _ = aes.Decrypt([]byte("IT50SCHEDUL3RTSK"), []byte("IT50SCHEDUL3RTSK"), pwd)
+	pwd, _ = aes.Decrypt([]byte("ECHRESENDTXT00LS"), []byte("ECHRESENDTXT00LS"), pwd)
 
 	addr := os.Getenv(m.prefix + "mysql.address")
-	addr, _ = aes.Decrypt([]byte("IT50SCHEDUL3RTSK"), []byte("IT50SCHEDUL3RTSK"), addr)
+	addr, _ = aes.Decrypt([]byte("ECHRESENDTXT00LS"), []byte("ECHRESENDTXT00LS"), addr)
 
 	port := os.Getenv(m.prefix + "mysql.port")
-	port, _ = aes.Decrypt([]byte("IT50SCHEDUL3RTSK"), []byte("IT50SCHEDUL3RTSK"), port)
+	port, _ = aes.Decrypt([]byte("ECHRESENDTXT00LS"), []byte("ECHRESENDTXT00LS"), port)
 
 	dbName := os.Getenv(m.prefix + "mysql.name")
-	dbName, _ = aes.Decrypt([]byte("IT50SCHEDUL3RTSK"), []byte("IT50SCHEDUL3RTSK"), dbName)
+	dbName, _ = aes.Decrypt([]byte("ECHRESENDTXT00LS"), []byte("ECHRESENDTXT00LS"), dbName)
 
 	connectionString := fmt.Sprintf(
 		"%s:%s@tcp(%s:%s)/%s?parseTime=true",
