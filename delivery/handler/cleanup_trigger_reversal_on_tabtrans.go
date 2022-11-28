@@ -18,11 +18,12 @@ func CleanUpTriggerReversalOnTabtrans() {
 	task := gocron.NewScheduler(localTime)
 
 	cleanUpSchedulerTime := os.Getenv("app.cleanup_trigger_time")
-	_, er := task.Every(1).Day().At(cleanUpSchedulerTime).Do(usecase.CleanUpTriggerReversalOnTabtrans)
+	// _, er := task.Every(1).Day().At(cleanUpSchedulerTime).Do(usecase.CleanUpTriggerReversalOnTabtrans)
+	_, er := task.Every(cleanUpSchedulerTime + "m").Do(usecase.CleanUpTriggerReversalOnTabtrans)
 	if er != nil {
 		_ = glg.Log(errors.New(er.Error()))
 	}
-	_ = glg.Log("Scheduler INFO: Clean up trigger-reversal scheduler running at:", cleanUpSchedulerTime)
+	_ = glg.Log("Scheduler INFO: Clean up trigger-reversal scheduler running at: every", cleanUpSchedulerTime, "minutes")
 
 	task.StartBlocking()
 

@@ -24,7 +24,7 @@ func FeeUpdateTelkomHalloTransOnRekpon() {
 		entities.PrintError(er.Error())
 		_ = glg.Log(errors.New(er.Error()))
 	}
-	_ = glg.Log("Scheduler INFO: Update fee telkom & hallo transaction scheduler running at: every", feeSchedulerTime, "Minutes")
+	_ = glg.Log("Scheduler INFO: Update fee telkom & hallo transaction scheduler running at: every", feeSchedulerTime, "minutes")
 
 	task.StartBlocking()
 
