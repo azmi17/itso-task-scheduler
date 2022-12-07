@@ -1,5 +1,9 @@
 package entities
 
+type LKMlist struct {
+	KodeLKM string
+}
+
 type TransHistory struct {
 	TransId                 int64
 	Stan                    string
@@ -32,6 +36,17 @@ type ProductConfig struct {
 	Profit_Share_Biller int
 	Profit_Share_aggr   int
 	Profitt_Share_Bank  int
+}
+
+type RepostingData struct {
+	KodeLKM     string
+	TotalDebet  float64
+	TotalKredit float64
+}
+
+type CalculateSaldoResult struct {
+	KodeLKM    string
+	SaldoAkhir float64
 }
 
 type SchedulerResponse struct {

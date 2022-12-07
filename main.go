@@ -18,6 +18,7 @@ import (
 )
 
 func main() {
+	//go handler.RepoObserver()
 	go delivery.PrintoutObserver()
 	go router.Start()
 	/*
@@ -27,6 +28,7 @@ func main() {
 		Solutions: Put the previously called function into the go routine.
 	*/
 	go handler.CleanUpTriggerReversalOnTabtrans()
+	go handler.RepostingSaldoApexByScheduler()
 	handler.FeeUpdateTelkomHalloTransOnRekpon()
 
 }
@@ -44,21 +46,13 @@ func init() {
 }
 
 func LoadConfiguration(isReload bool) {
+
 	var er error
 	if isReload {
-		_ = glg.Log("=================Service Info===================")
-		_ = glg.Log("Application Name:", helper.AppName)
-		_ = glg.Log("Application Version:", helper.AppVersion)
-		_ = glg.Log("Last Build:", helper.LastBuild)
-		_ = glg.Log("================================================")
+
 		_ = glg.Log("Reloading configuration file...")
 		er = godotenv.Overload(".env")
 	} else {
-		_ = glg.Log("=================Service Info===================")
-		_ = glg.Log("Application Name:", helper.AppName)
-		_ = glg.Log("Application Version:", helper.AppVersion)
-		_ = glg.Log("Last Build:", helper.LastBuild)
-		_ = glg.Log("================================================")
 		_ = glg.Log("Loading configuration file...")
 		er = godotenv.Load(".env")
 	}
@@ -68,9 +62,10 @@ func LoadConfiguration(isReload bool) {
 		os.Exit(1)
 	}
 
-	//Opsi agar log utk level LOG, DEBUG, INFO dicatat atau tidak
-	//Jika menggunakan docker atau dibuatkan service, log sudah dibuatkan, sehingga direkomendasikan
-	//app log di set false
+	/*
+		Opsi agar log utk level LOG, DEBUG, INFO dicatat atau tidak Jika menggunakan docker atau
+		dibuatkan service, log sudah dibuatkan, sehingga direkomendasikan app log di set false
+	*/
 	appLog := os.Getenv("app.log")
 	if appLog == "true" {
 		log := glg.FileWriter("log/application.log", 0666)
@@ -82,18 +77,36 @@ func LoadConfiguration(isReload bool) {
 			AddLevelWriter(glg.ERR, log)
 	}
 
-	//Untuk error, akan selalu dicatat dalam file
+	/*
+		Untuk error global, akan selalu dicatat dalam file
+	*/
 	logEr := glg.FileWriter("log/application.err", 0666)
 	glg.Get().
 		SetMode(glg.BOTH).
 		AddLevelWriter(glg.ERR, logEr).
 		AddLevelWriter(glg.WARN, logEr)
+
+	/*
+		Untuk error jika terdapat gagal reposting,
+		menggunakan flag FAIL
+	*/
+	repostinglogEr := glg.FileWriter("log/repostings.err", 0666)
+	glg.Get().
+		SetMode(glg.BOTH).
+		AddLevelWriter(glg.FAIL, repostinglogEr)
+
+	_ = glg.Log("=================Service Info===================")
+	_ = glg.Log("Application Name:", helper.AppName)
+	_ = glg.Log("Application Version:", helper.AppVersion)
+	_ = glg.Log("Last Build:", helper.LastBuild)
+	_ = glg.Log("================================================")
+
 }
 
 func PrepareDatabase() {
 	var er error
 
-	// # App DB: Rekpon
+	// # App DB: Apex
 	databasefactory.Apex, er = databasefactory.GetDatabase()
 	databasefactory.Apex.SetEnvironmentVariablePrefix("apx.")
 	if er != nil {

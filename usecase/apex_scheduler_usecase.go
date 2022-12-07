@@ -10,6 +10,7 @@ import (
 
 type ApexSchedulerUsecase interface {
 	CleanUpTriggerReversalOnTabtrans() error
+	RepostingSaldoByScheduler() (er error)
 }
 
 type apextSchedulerUsecase struct{}
@@ -33,4 +34,21 @@ func (a *apextSchedulerUsecase) CleanUpTriggerReversalOnTabtrans() (er error) {
 	_ = glg.Log("Scheduler INFO: ", "Clean up trigger-reversal is done at:", currUTCTimeInString)
 
 	return
+}
+
+func (a *apextSchedulerUsecase) RepostingSaldoByScheduler() (er error) {
+	repo, _ := apexrepo.NewApexRepo()
+
+	list, er := repo.GetRekeningLKMByStatusActive()
+	if er != nil {
+		return er
+	}
+
+	_ = glg.Log("Reposting saldo apex is processing..")
+	er = repo.RepostingSaldoOnRekeningLKMByScheduler(list...)
+	if er != nil {
+		return er
+	}
+
+	return nil
 }
