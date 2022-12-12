@@ -10,7 +10,7 @@ import (
 
 type ApexSchedulerUsecase interface {
 	CleanUpTriggerReversalOnTabtrans() error
-	RepostingSaldoByScheduler() (er error)
+	RepostingSaldoApexByScheduler() (er error)
 }
 
 type apextSchedulerUsecase struct{}
@@ -36,7 +36,7 @@ func (a *apextSchedulerUsecase) CleanUpTriggerReversalOnTabtrans() (er error) {
 	return
 }
 
-func (a *apextSchedulerUsecase) RepostingSaldoByScheduler() (er error) {
+func (a *apextSchedulerUsecase) RepostingSaldoApexByScheduler() (er error) {
 	repo, _ := apexrepo.NewApexRepo()
 
 	list, er := repo.GetRekeningLKMByStatusActive()

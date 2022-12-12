@@ -1,5 +1,10 @@
 package entities
 
+const (
+	SCHEDULER_ENABLE  = "ENABLE"
+	SCHEDULER_DISABLE = "DISABLE"
+)
+
 type LKMlist struct {
 	KodeLKM string
 }

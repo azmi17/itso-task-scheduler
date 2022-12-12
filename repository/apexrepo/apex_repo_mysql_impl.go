@@ -90,7 +90,7 @@ func (a *ApexRepoMysqlImpl) CalculateSaldoOnRekeningLKM(kodeLKM string) (data en
 // 	  SUM(CASE WHEN my_kode_trans='200' THEN pokok ELSE 0 END) AS total_debet
 // 	FROM tabtrans
 // 	 WHERE
-// 	no_rekening = ?  GROUP BY no_rekening
+// 	no_rekening = ? GROUP BY no_rekening
 // 	`, kodeLKM)
 // 	er = row.Scan(
 // 		&tabtrans.KodeLKM,

@@ -18,15 +18,17 @@ import (
 )
 
 func main() {
-	//go handler.RepoObserver()
-	go delivery.PrintoutObserver()
-	go router.Start()
 	/*
 		below is only run by sequentially which is only the first handler is executed,
 		so, how all these function can be run by parallel (?)
 
 		Solutions: Put the previously called function into the go routine.
 	*/
+	go delivery.PrintoutObserver()
+	go router.Start()
+
+	// Below is scheduler section
+	go handler.RepostingSchedulerRepoObserver()
 	go handler.CleanUpTriggerReversalOnTabtrans()
 	go handler.RepostingSaldoApexByScheduler()
 	handler.FeeUpdateTelkomHalloTransOnRekpon()
@@ -148,7 +150,7 @@ func PrepareDatabase() {
 
 func ReloadObserver() {
 	sign := make(chan os.Signal, 1)     // bikin channel yang isinya dari signal
-	signal.Notify(sign, syscall.SIGHUP) // kalo ada signal HUP simpan ke channel sign
+	signal.Notify(sign, syscall.SIGHUP) // jika ada signal HUP simpan ke channel sign
 
 	func() {
 		for {

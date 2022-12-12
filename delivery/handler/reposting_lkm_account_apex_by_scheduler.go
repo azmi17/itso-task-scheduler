@@ -2,6 +2,7 @@ package handler
 
 import (
 	"errors"
+	"itso-task-scheduler/entities"
 	"itso-task-scheduler/helper"
 	"itso-task-scheduler/usecase"
 	"os"
@@ -11,21 +12,22 @@ import (
 )
 
 func RepostingSaldoApexByScheduler() {
-	usecase := usecase.NewApexSchedulerUsecase()
+	schedulerStatus := os.Getenv("app.scheduler_status")
+	if schedulerStatus != entities.SCHEDULER_DISABLE {
+		usecase := usecase.NewApexSchedulerUsecase()
 
-	localTime := helper.IDNLocalTime()
+		localTime := helper.IDNLocalTime()
+		schedulerTime := os.Getenv("app.balance_reposting_time")
 
-	task := gocron.NewScheduler(localTime)
+		task := gocron.NewScheduler(localTime)
+		_, er := task.Every(schedulerTime + "m").Do(usecase.RepostingSaldoApexByScheduler)
+		if er != nil {
+			_ = glg.Log(errors.New(er.Error()))
+		}
+		_ = glg.Log("Scheduler INFO: Reposting saldo apex scheduler running at: every", schedulerTime, "minutes")
 
-	schedulerTime := os.Getenv("app.time_test")
-	_, er := task.Every(schedulerTime + "m").Do(usecase.RepostingSaldoByScheduler)
-	if er != nil {
-		_ = glg.Log(errors.New(er.Error()))
+		// go RepostingSchedulerRepoObserver()
+
+		task.StartBlocking()
 	}
-	_ = glg.Log("Scheduler INFO: Reposting saldo apex scheduler running at: every", schedulerTime, "minutes")
-
-	go RepostingSchedulerRepoObserver()
-
-	task.StartBlocking()
-
 }

@@ -3,6 +3,7 @@ package handler
 import (
 	"fmt"
 	"itso-task-scheduler/entities"
+	"os"
 	"time"
 
 	"github.com/kpango/glg"
@@ -15,7 +16,6 @@ func RepostingSchedulerRepoObserver() {
 	var numOfSuccess, numOfFailed int
 
 	for po := range entities.PrintRepoChan {
-
 		if po.Status == entities.PRINT_INIT_REPO_CHAN {
 			numOfSuccess = 0
 			numOfFailed = 0
@@ -35,21 +35,37 @@ func RepostingSchedulerRepoObserver() {
 			fmt.Println("")
 			_ = glg.Log("Scheduler INFO: Reposting Success =>", numOfSuccess)
 			_ = glg.Log("Scheduler INFO: Reposting Failed =>", numOfFailed)
+			_ = glg.Log("Scheduler INFO: Reposting total =>", numOfSuccess+numOfFailed)
+
+			// TELEGRAM BOT NOTIFY
+			Token = os.Getenv("app.bot_token")
+			ChatId = os.Getenv("app.chat_id")
+			GetTokenBotWithChatID(Token, ChatId)
+
+			msg, _ := RepostingNumResult(numOfSuccess, numOfFailed, numOfSuccess+numOfFailed)
+
+			// Send a message
+			_, er := SendMessage(msg)
+			if er != nil {
+				entities.PrintError("%s", er)
+			}
 
 			hours, minutes, _ := time.Now().Clock()
 			currUTCTimeInString := fmt.Sprintf("%d:%02d", hours, minutes)
 			_ = glg.Log("Scheduler INFO:", "Reposting saldo apex is done at:", currUTCTimeInString)
+			fmt.Println("")
 
 			bar.Finish()
 		} else {
 			if po.Status == entities.PRINT_SUCCESS_STATUS_REPO_CHAN {
 				numOfSuccess++
+				// glg.Log("Reposting Success:", "=> Kode LKM:", po.KodeLKM, ", => Messages:", po.Message)
 			} else {
 				numOfFailed++
-				glg.Fail("reposting errors:", " [Kode LKM:", po.KodeLKM, "], [Messages: ", po.Message, "]")
+				glg.Fail("Reposting Errors:", "=> Kode LKM:", po.KodeLKM, ", => Messages:", po.Message)
 			}
 			bar.Add(1)
-			time.Sleep(1 * time.Nanosecond) // debug mode..
+			// time.Sleep(1 * time.Nanosecond) // debug mode..
 		}
 
 	}

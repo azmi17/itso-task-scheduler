@@ -18,7 +18,7 @@ func FeeUpdateTelkomHalloTransOnRekpon() {
 
 	task := gocron.NewScheduler(localTime)
 
-	feeSchedulerTime := os.Getenv("app.fee_scheduler_time")
+	feeSchedulerTime := os.Getenv("app.update_fee_time")
 	_, er := task.Every(feeSchedulerTime + "m").Do(usecase.RekponUpdateFeeOnTelkomHalloTrans)
 	if er != nil {
 		entities.PrintError(er.Error())

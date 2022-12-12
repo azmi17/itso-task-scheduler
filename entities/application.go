@@ -8,8 +8,8 @@ const (
 	PRINT_FAILED_STATUS_REPO_CHAN  = "01"
 	PRINT_INIT_REPO_CHAN           = "02"
 	PRINT_FINISH_REPO_CHAN         = "03"
-	PRINT_SUCCESS_MSG_REPO_CHAN    = "SUCCESS"
-	PRINT_FAILED_MSG_REPO_CHAN     = "FAILED"
+	PRINT_SUCCESS_MSG_REPO_CHAN    = "Reposting saldo apex succeeded"
+	PRINT_FAILED_MSG_REPO_CHAN     = "Reposting saldo apex failed"
 )
 
 var (
