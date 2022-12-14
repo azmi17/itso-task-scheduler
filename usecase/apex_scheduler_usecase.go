@@ -44,7 +44,7 @@ func (a *apextSchedulerUsecase) RepostingSaldoApexByScheduler() (er error) {
 		return er
 	}
 
-	_ = glg.Log("Reposting saldo apex is processing..")
+	_ = glg.Log("Scheduler INFO: ", "Reposting saldo apex is processing..")
 	er = repo.RepostingSaldoOnRekeningLKMByScheduler(list...)
 	if er != nil {
 		return er

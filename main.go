@@ -97,11 +97,11 @@ func LoadConfiguration(isReload bool) {
 		SetMode(glg.BOTH).
 		AddLevelWriter(glg.FAIL, repostinglogEr)
 
-	_ = glg.Log("=================Service Info===================")
+	_ = glg.Log("=================Service Info================")
 	_ = glg.Log("Application Name:", helper.AppName)
 	_ = glg.Log("Application Version:", helper.AppVersion)
 	_ = glg.Log("Last Build:", helper.LastBuild)
-	_ = glg.Log("================================================")
+	_ = glg.Log("=============================================")
 
 }
 

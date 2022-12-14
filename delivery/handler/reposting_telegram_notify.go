@@ -63,17 +63,35 @@ func SendMessage(text string) (bool, error) {
 	return true, nil
 }
 
+// func RepostingNumResult(numOfSuccess, numOfFailed, totalReposting int) (string, error) {
+// 	// flag redefined [ERROR]
+// 	var message string
+// 	message = `
+// 	Halo sobat ITSO, Reposting saldo apex berdasarkan rekening aktif sudah selesai:
+
+// 		=============================
+// 		<b>Reposting Success:</b> <i>` + strconv.Itoa(numOfSuccess) + ` Rekening</i>
+// 		<b>Reposting Failed:</b> <i>` + strconv.Itoa(numOfFailed) + ` Rekening</i>
+// 		<b>Reposting Total:</b> <i>` + strconv.Itoa(totalReposting) + ` Rekening</i>
+// 		=============================
+
+// 		Your Helper :)
+// 		<b>CT Support Assistant</b>`
+
+// 	return message, nil
+// }
+
 func RepostingNumResult(numOfSuccess, numOfFailed, totalReposting int) (string, error) {
 	// flag redefined [ERROR]
 	var message string
 	message = `
-	Halo sobat ITSO, Reposting saldo apex berdasarkan rekening aktif sudah selesai:
+	Halo sobat ITSO, Reposting saldo untuk seluruh lembaga sudah selesai:
 
-		=================================
+		=============================
 		<b>Reposting Success:</b> <i>` + strconv.Itoa(numOfSuccess) + ` Rekening</i>
 		<b>Reposting Failed:</b> <i>` + strconv.Itoa(numOfFailed) + ` Rekening</i>
 		<b>Reposting Total:</b> <i>` + strconv.Itoa(totalReposting) + ` Rekening</i>
-		=================================
+		=============================
 		
 		Your Helper :)
 		<b>CT Support Assistant</b>`

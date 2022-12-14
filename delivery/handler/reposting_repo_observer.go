@@ -65,7 +65,7 @@ func RepostingSchedulerRepoObserver() {
 				glg.Fail("Reposting Errors:", "=> Kode LKM:", po.KodeLKM, ", => Messages:", po.Message)
 			}
 			bar.Add(1)
-			// time.Sleep(1 * time.Nanosecond) // debug mode..
+			time.Sleep(1 * time.Nanosecond) // debug mode..
 		}
 
 	}

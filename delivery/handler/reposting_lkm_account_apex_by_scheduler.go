@@ -25,7 +25,7 @@ func RepostingSaldoApexByScheduler() {
 		if er != nil {
 			_ = glg.Log(errors.New(er.Error()))
 		}
-		// _ = glg.Log("Scheduler INFO: Reposting saldo apex scheduler running at: every", schedulerTime, "minutes")
+		// _ = glg.Log("Scheduler INFO: Reposting saldo apex scheduler running at: every", schedulerTime, "minutes") // => debug mode
 		_ = glg.Log("Scheduler INFO: Reposting saldo apex scheduler running at:", schedulerTime[0:5], "&", schedulerTime[6:11])
 
 		// go RepostingSchedulerRepoObserver()

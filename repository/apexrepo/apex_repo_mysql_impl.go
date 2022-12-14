@@ -34,7 +34,8 @@ func (a *ApexRepoMysqlImpl) CleanUpTriggerByReversalOnTabtrans() error {
 }
 
 func (a *ApexRepoMysqlImpl) GetRekeningLKMByStatusActive() (lists []string, er error) {
-	rows, er := a.apexDb.Query("SELECT no_rekening FROM tabung WHERE status = 1")
+	// rows, er := a.apexDb.Query("SELECT no_rekening FROM tabung WHERE status = 1")
+	rows, er := a.apexDb.Query("SELECT no_rekening FROM tabung")
 	if er != nil {
 		return lists, er
 	}

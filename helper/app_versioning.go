@@ -3,7 +3,7 @@ package helper
 var (
 	AppName        = "ITSO Task Scheduler"
 	AppDescription = "Handle any task with scheduler"
-	AppVersion     = "1.3"
+	AppVersion     = "1.4"
 	AppAuthor      = "Azmi Farhan"
-	LastBuild      = "12/12/2022 13:26"
+	LastBuild      = "14/12/2022 14:35"
 )
